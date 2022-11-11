@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,5 +25,9 @@ Route::prefix('v1')->group(function () {
 
         // Projects
         Route::apiResource('projects', ProjectController::class);
+
+        // Users
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::get('api-users', [UserController::class, 'apiUsers'])->name('users.apiUsers');
     });
 });
