@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,7 +27,9 @@ class ProjectRequest extends FormRequest
     {
         return [
             'workspace_id' => 'required|in:' . Workspace::pluck('id')->join(','),
-            'name'         => 'required|string|min:2'
+            'name'         => 'required|string|min:2',
+            'members'      => 'nullable|array',
+            'members.*'    => 'integer|in:' . User::where('id', '!=', auth()->id())->pluck('id')->join(','),
         ];
     }
 
