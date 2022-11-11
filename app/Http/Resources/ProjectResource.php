@@ -15,14 +15,14 @@ class ProjectResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'         => $this->id,
-            'name'       => $this->name,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'workspace'  => $this->whenLoaded('workspace'),
-            'owner'      => new UserResource($this->whenLoaded('user')),
-            'members'    => UserResource::collection($this->whenLoaded('members')),
-            //            'tasks_count' => $this->whenCounted('tasks'),
+            'id'          => $this->id,
+            'name'        => $this->name,
+            'created_at'  => $this->created_at,
+            'updated_at'  => $this->updated_at,
+            'tasks_count' => $this->whenCounted('tasks'),
+            'workspace'   => $this->whenLoaded('workspace'),
+            'owner'       => new UserResource($this->whenLoaded('user')),
+            'members'     => UserResource::collection($this->whenLoaded('members')),
         ];
     }
 }

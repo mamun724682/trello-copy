@@ -26,7 +26,7 @@ class ProjectService extends BaseService
                 return $this->model::with($with)->findOrFail($id);
             } else {
 //                return $this->model::where('user_id', auth()->id())->latest()->with($with)->get();
-                return auth()->user()->projects()->latest()->with($with)->get();
+                return auth()->user()->projects()->latest()->with($with)->withCount('tasks')->get();
             }
         } catch (\Exception $e) {
             $this->logErrorResponse($e);
