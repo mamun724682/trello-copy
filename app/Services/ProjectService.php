@@ -72,4 +72,23 @@ class ProjectService extends BaseService
             $this->logErrorResponse($e);
         }
     }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        try {
+            // Find Project
+            $project = $this->model::findOrfail($id);
+
+            // Detach members
+            $project->members()->detach();
+
+            return $project->delete();
+        } catch (\Exception $e) {
+            $this->logErrorResponse($e);
+        }
+    }
 }

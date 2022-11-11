@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('project_member', function (Blueprint $table) {
-            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->bigInteger('project_id');
+            $table->bigInteger('user_id');
             $table->timestamps();
         });
     }
