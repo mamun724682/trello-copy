@@ -42,8 +42,18 @@ class ProjectService extends BaseService
     {
         try {
             if ($id) {
-                // Update
-                return tap($this->model::findOrFail($id))->update($data);
+                // Update project
+                $project = tap($this->model::findOrFail($id))->update($data);
+
+                // Sync members
+                if (isset($data['members'])){
+                    $members = [...$data['members'], auth()->id()];
+                } else {
+                    $members = auth()->id();
+                }
+                $project->members()->sync($members);
+
+                return $project;
             } else {
                 // Create
                 $project = $this->model::create($data);
