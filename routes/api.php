@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,13 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('v1')->group(function () {
-    /* ------------------------ Authentication ----------------------- */
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('auth-user', [AuthController::class, 'authUser']);
         Route::get('logout', [AuthController::class, 'logout']);
+
+        // Projects
+        Route::apiResource('projects', ProjectController::class);
     });
-    /* ------------------------ End Authentication ----------------------- */
 });

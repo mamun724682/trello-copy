@@ -20,7 +20,7 @@ class BaseService
      * @param $with
      * @return Builder|Builder|Collection|Model|void|null
      */
-    public function get(int $id = null, string|array $with = []): Model|Collection
+    public function get(int|null $id = null, string|array $with = []): Model|Collection
     {
         try {
             if ($id) {
