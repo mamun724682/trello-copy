@@ -11,6 +11,7 @@
         <div class="lh-1">
             <nav v-if="user" class="nav" aria-label="Secondary navigation">
                 <router-link :to="{name: 'projects'}" class="nav-link text-white">Projects</router-link>
+                <router-link :to="{name: 'api_users'}" class="nav-link text-white">Api Users</router-link>
                 <a href="javascript:void(0)" @click="logout" class="nav-link text-white">Logout</a>
             </nav>
         </div>
@@ -33,8 +34,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .router-link-exact-active {
-    color: black;
+    color: black !important;
 }
 </style>

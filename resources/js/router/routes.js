@@ -3,6 +3,7 @@ import Register from "@/pages/auth/Register.vue";
 import Dashboard from "@/pages/Dashboard.vue";
 import Projects from "@/pages/Projects.vue";
 import NotFound from "@/pages/NotFound.vue";
+import ApiUsers from "@/pages/ApiUsers.vue";
 
 export default [
     {
@@ -33,6 +34,22 @@ export default [
         path: '/projects',
         component: Projects,
         name: 'projects',
+        meta: {
+            guard: 'auth'
+        }
+    },
+    {
+        path: '/projects',
+        component: Projects,
+        name: 'projects',
+        meta: {
+            guard: 'auth'
+        }
+    },
+    {
+        path: '/api-users',
+        component: ApiUsers,
+        name: 'api_users',
         meta: {
             guard: 'auth'
         }

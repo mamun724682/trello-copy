@@ -32,7 +32,7 @@ class UserController extends Controller
      */
     public function apiUsers(): JsonResponse
     {
-        $response = Cache::remember('users', 300, fn() => Http::retry(3, 100)->get('https://randomuser.me/api')->json());
+        $response = Cache::remember('users', 300, fn() => Http::retry(3, 100)->get('https://randomuser.me/api?results=5')->json());
 
         return response()->success(
             'List of api users',
