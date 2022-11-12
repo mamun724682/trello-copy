@@ -1,23 +1,22 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Login from "../pages/Login.vue";
-import Register from "@/pages/Register.vue";
-
-const routes = [
-    {
-        path: '/',
-        name: 'Login',
-        component: Login
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: Register
-    },
-];
+import {createRouter, createWebHistory} from 'vue-router'
+import routes from './routes.js'
+import store from '../store'
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory(),
     routes
 })
 
-export default router
+router.beforeEach((to, from, next) => {
+    if (store.getters.user) {
+        if (to.matched.some(route => route.meta.guard === 'guest')) next({name: 'dashboard'})
+        else next();
+
+    } else {
+        if (to.matched.some(route => route.meta.guard === 'auth')) next({name: 'login'})
+        else next();
+    }
+})
+
+export default router;
+

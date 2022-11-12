@@ -1,12 +1,28 @@
 <template>
-    <router-link to="/">Loh</router-link>
-    <router-link to="/register">reg</router-link>
-    <router-view></router-view>
+    <main class="container">
+        <Nav></Nav>
+
+        <router-view class="p-6 " v-slot="{ Component }">
+            <transition name="fade" mode="out-in" >
+                <component :is="Component" />
+            </transition>
+        </router-view>
+    </main>
 </template>
 
 <script setup>
+import Nav from "@/pages/partials/Nav.vue";
 </script>
 
-<style scoped>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
 
 </style>

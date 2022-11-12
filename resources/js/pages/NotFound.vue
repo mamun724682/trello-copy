@@ -1,10 +1,10 @@
 <template>
-    <div>Register</div>
+    Not Found
 </template>
 
 <script>
 export default {
-    name: "RegisterView"
+    name: "NotFound"
 }
 </script>
 
