@@ -8,7 +8,9 @@
             <div class="mb-3">
                 <label for="workspace" class="form-label">Select Workspace</label>
                 <select class="form-select" id="workspace" v-model="form_data.workspace_id" aria-label="Select">
-                    <option v-for="workspace in workspaces" :key="workspace.id" :value="workspace.id">{{ workspace.name }}</option>
+                    <option v-for="workspace in workspaces" :key="workspace.id" :value="workspace.id">
+                        {{ workspace.name }}
+                    </option>
                 </select>
             </div>
             <div class="mb-3">
@@ -57,13 +59,14 @@ export default {
             this.busy = true;
             this.errors = null
 
-            await axios.get('/api/v1/projects').then(({data}) => {
-                if (data.success === true){
-                    this.$router.push({name: 'projects'})
-                }
-            }).catch((err) => {
-                throw err.data
-            });
+            await axios.post('/api/v1/projects', this.form_data)
+                .then(({data}) => {
+                    if (data.success === true) {
+                        this.$router.push({name: 'projects'})
+                    }
+                }).catch((err) => {
+                    throw err.data
+                });
 
             this.busy = false;
         },
