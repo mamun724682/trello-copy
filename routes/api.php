@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,9 @@ Route::prefix('v1')->group(function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('auth-user', [AuthController::class, 'authUser']);
         Route::get('logout', [AuthController::class, 'logout']);
+
+        // Workspace
+        Route::get('workspaces', [WorkspaceController::class, 'index']);
 
         // Projects
         Route::apiResource('projects', ProjectController::class);

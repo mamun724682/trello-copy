@@ -33,6 +33,16 @@ class ProjectService extends BaseService
         }
     }
 
+    public function getPaginate(string|array $with = [])
+    {
+        try {
+//            return $this->model::where('user_id', auth()->id())->latest()->with($with)->get();
+            return auth()->user()->projects()->latest()->with($with)->withCount('tasks')->paginate();
+        } catch (\Exception $e) {
+            $this->logErrorResponse($e);
+        }
+    }
+
     /**
      * @param array $data
      * @param int|null $id

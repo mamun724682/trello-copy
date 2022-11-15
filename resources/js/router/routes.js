@@ -1,9 +1,10 @@
 import Login from "@/pages/auth/Login.vue";
 import Register from "@/pages/auth/Register.vue";
 import Dashboard from "@/pages/Dashboard.vue";
-import Projects from "@/pages/Projects.vue";
 import NotFound from "@/pages/NotFound.vue";
 import ApiUsers from "@/pages/ApiUsers.vue";
+import ProjectIndex from "@/pages/Projects/ProjectIndex.vue";
+import ProjectCreate from "@/pages/Projects/ProjectCreate.vue";
 
 export default [
     {
@@ -32,16 +33,16 @@ export default [
     },
     {
         path: '/projects',
-        component: Projects,
+        component: ProjectIndex,
         name: 'projects',
         meta: {
             guard: 'auth'
         }
     },
     {
-        path: '/projects',
-        component: Projects,
-        name: 'projects',
+        path: '/projects/add',
+        component: ProjectCreate,
+        name: 'projects_add',
         meta: {
             guard: 'auth'
         }

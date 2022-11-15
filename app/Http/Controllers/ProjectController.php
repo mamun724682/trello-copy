@@ -23,7 +23,7 @@ class ProjectController extends Controller
     {
         return response()->success(
             'List of projects',
-            ProjectResource::collection($this->projectService->get(null, ['workspace', 'user', 'members']))
+            ProjectResource::collection($this->projectService->getPaginate(['workspace', 'user', 'members']))->response()->getData()
         );
     }
 
