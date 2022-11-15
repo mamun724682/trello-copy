@@ -36,11 +36,11 @@ export default {
     data() {
         return {
             headers: [
-                { text: "Workspace", value: "workspace.name" },
-                { text: "Project name", value: "name" },
-                { text: "Status", value: "owner_status" },
-                { text: "Members", value: "members.length" },
-                { text: "Tasks", value: "tasks_count" },
+                {text: "Workspace", value: "workspace.name"},
+                {text: "Project name", value: "name"},
+                {text: "Status", value: "owner_status"},
+                {text: "Members", value: "members.length"},
+                {text: "Tasks", value: "tasks_count"},
             ],
             projects: [],
             busy: false,
@@ -53,7 +53,7 @@ export default {
     },
     watch: {
         serverOptions: {
-            handler(){
+            handler() {
                 this.getProjects()
             },
             deep: true
@@ -66,14 +66,15 @@ export default {
         async getProjects() {
             try {
                 this.busy = true
-                await axios.get('/api/v1/projects').then(({data}) => {
-                    console.log(data.data)
-                    this.projects = data.data.data
-                    // this.serverOptions = data.data.meta
-                    this.serverItemsLength = data.data.meta.total
-                }).catch((err) => {
-                    throw err.response
-                });
+                await axios.get('/api/v1/projects', { params: this.serverOptions })
+                    .then(({data}) => {
+                        console.log(data.data)
+                        this.projects = data.data.data
+                        // this.serverOptions = data.data.meta
+                        this.serverItemsLength = data.data.meta.total
+                    }).catch((err) => {
+                        throw err.response
+                    });
                 this.busy = false
             } catch (e) {
                 throw e
