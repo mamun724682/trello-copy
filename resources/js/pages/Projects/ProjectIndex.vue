@@ -5,21 +5,37 @@
             <h6 class="border-bottom pb-2 mb-0">Projects</h6>
             <router-link :to="{name: 'projects_add'}" class="btn btn-primary btn-sm">Add New</router-link>
         </div>
-        <Vue3EasyDataTable
-            v-model:server-options="serverOptions"
-            :server-items-length="serverItemsLength"
-            :headers="headers"
-            :items="projects"
-            :loading="busy"
-            show-index
-        >
-            <template #loading>
-                <img
-                    src="https://i.pinimg.com/originals/94/fd/2b/94fd2bf50097ade743220761f41693d5.gif"
-                    style="width: 100px; height: 80px;"
-                />
-            </template>
-        </Vue3EasyDataTable>
+        <div class="form-row d-flex mb-2">
+            <div class="col mx-1">
+                <label for="">From Date</label>
+                <input type="date" v-model="serverOptions.from_date" class="form-control">
+            </div>
+            <div class="col">
+                <label for="">To Date</label>
+                <input type="date" v-model="serverOptions.to_date" class="form-control">
+            </div>
+            <div class="col mx-1">
+                <label for="">Email</label>
+                <input type="text" v-model="serverOptions.email" class="form-control" placeholder="Email">
+            </div>
+        </div>
+        <div>
+            <Vue3EasyDataTable
+                v-model:server-options="serverOptions"
+                :server-items-length="serverItemsLength"
+                :headers="headers"
+                :items="projects"
+                :loading="busy"
+                show-index
+            >
+                <template #loading>
+                    <img
+                        src="https://i.pinimg.com/originals/94/fd/2b/94fd2bf50097ade743220761f41693d5.gif"
+                        style="width: 100px; height: 80px;"
+                    />
+                </template>
+            </Vue3EasyDataTable>
+        </div>
     </div>
 </template>
 

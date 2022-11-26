@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
+use App\Http\Resources\ProjectCollection;
 use App\Http\Resources\ProjectResource;
 use App\Services\ProjectService;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +24,11 @@ class ProjectController extends Controller
     {
         return response()->success(
             'List of projects',
-            ProjectResource::collection($this->projectService->getPaginate(['workspace', 'user', 'members']))->response()->getData()
+new ProjectCollection($this->projectService->getPaginate(['workspace', 'user', 'members']))
+//            $this->projectService->getPaginate(['workspace', 'user', 'members'])
+//            ProjectResource::collection($this->projectService->getPaginate(['workspace', 'user', 'members']))
+//            ProjectResource::collection($this->projectService->getPaginate(['workspace', 'user', 'members']))->response()->getData()
+//            new ProjectResource($this->projectService->getPaginate(['workspace', 'user', 'members']))
         );
     }
 

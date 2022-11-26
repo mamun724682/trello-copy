@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Project;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -33,11 +34,46 @@ class ProjectService extends BaseService
         }
     }
 
-    public function getPaginate(string|array $with = [])
+    /**
+     * @param string|array $with
+     * @return LengthAwarePaginator|void
+     */
+    public function getPaginate(string|array $with = []): string|array
     {
         try {
-//            return $this->model::where('user_id', auth()->id())->latest()->with($with)->get();
-            return auth()->user()->projects()->latest()->with($with)->withCount('tasks')->paginate();
+            return $this->model::query()
+                ->whereRelation('members', 'user_id', auth()->id())
+                ->when(request()->email, function ($q) {
+                    $q->whereRelation('members', 'email', request()->email);
+                })
+                ->when(request()->from_date && !request()->to_date, function ($q) {
+                    $q->whereBetween('created_at', [request()->from_date, now()]);
+                })
+                ->when(!request()->from_date && request()->to_date, function ($q) {
+                    $q->whereBetween('created_at', [now()->subCentury(), request()->to_date]);
+                })
+                ->when(request()->from_date && request()->to_date, function ($q) {
+                    $q->whereBetween('created_at', [request()->from_date, request()->to_date]);
+                })
+                ->latest()
+                ->with($with)
+                ->withCount('tasks')
+                ->paginate();
+
+
+            return auth()->user()->projects()->latest()
+                ->when(request()->from_date && !request()->to_date, function ($q) {
+                    info(4444444444444444444444444);
+                    info($q);
+                    $q->whereBetween('created_at', [request()->from_date, now()]);
+                })
+                ->when(!request()->from_date && request()->to_date, function ($q) {
+                    $q->whereBetween('created_at', [now()->subCentury(), request()->to_date]);
+                })
+                ->when(request()->from_date && request()->to_date, function ($q) {
+                    $q->whereBetween('created_at', [request()->from_date, request()->to_date]);
+                })
+                ->with($with)->withCount('tasks')->paginate();
         } catch (\Exception $e) {
             $this->logErrorResponse($e);
         }
@@ -56,7 +92,7 @@ class ProjectService extends BaseService
                 $project = tap($this->model::findOrFail($id))->update($data);
 
                 // Sync members
-                if (isset($data['members'])){
+                if (isset($data['members'])) {
                     $members = [...$data['members'], auth()->id()];
                 } else {
                     $members = auth()->id();
@@ -69,7 +105,7 @@ class ProjectService extends BaseService
                 $project = $this->model::create($data);
 
                 // Attach members
-                if (isset($data['members'])){
+                if (isset($data['members'])) {
                     $members = [...$data['members'], auth()->id()];
                 } else {
                     $members = auth()->id();
